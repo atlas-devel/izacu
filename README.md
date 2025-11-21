@@ -1,150 +1,32 @@
-# 🎬 Izacu — Anonymous Movie Streaming Platform
+# Izacu
 
+Izacu is a simple movie-browsing website where users can enter without registration and freely explore available movies. The goal of Izacu is to provide a clean, fast, and distraction-free experience where visitors can watch films without logging in, leaving comments, or giving ratings. The website also includes an admin dashboard that will later provide movie management tools, database analytics, and visitor insights.
 
-![Izacu Homepage UI](./public/homepage.png)
-```
+The entire project is still under development, and many features are being added step by step.
 
-### Displayed Image:
+## Current Homepage UI
 
-![Izacu Homepage UI](.client/public/homepage.png)
+Below is the current homepage interface for Izacu.  
+Replace the placeholder link with your actual image path (`/homepage.png` or inside an `/assets` folder):
 
----
+![Izacu Homepage](./homepage.png)
 
-## 📌 About Izacu
+## Tech Stack
 
-Izacu is a privacy-focused movie streaming platform where users can:
+- React.js  
+- Tailwind CSS  
+- Framer Motion  
+- Node.js  
+- Express.js  
+- PostgreSQL  
+- Prisma ORM  
+- Multer  
+- Cloudinary  
 
-* Browse movies with **no account required**
-* Watch movies instantly
-* Enjoy a clean and fast UI
-* Stay fully anonymous — no personal data stored
+## Development Status
 
-Admins can:
-
-* Add/edit/delete movies
-* Upload movie posters (Cloudinary)
-* Manage genres
-* Control publish/unpublish status
-* View anonymous visitor analytics
-
----
-
-## 🚧 Project Development Status
-
-The **whole project** is still being built:
-
-### Frontend (React)
-
-* ⚠️ Still under development
-* Homepage UI created
-* Built with:
-
-  * React.js
-  * Tailwind CSS
-  * Framer Motion
-* More pages coming soon (movie list, watch page, admin dashboard UI)
-
-### Backend
-
-* Node.js + Express
-* PostgreSQL + Prisma
-* Multer (uploads)
-* Cloudinary (poster storage)
-* Visitor tracking API
-* Admin authentication (in progress)
+This project is actively being built. Many features, UI components, and backend functionalities are still in progress. Future updates will include movie CRUD operations, admin analytics, advanced filtering, and improved UI interactions.
 
 ---
 
-## 🚀 Features
-
-### ✔ Anonymous User Features
-
-* Browse movies
-* Watch movies instantly
-* No registration
-* Privacy-friendly experience
-
-### ✔ Admin Features
-
-* Movie CRUD
-* Genre CRUD
-* Upload posters via Cloudinary
-* Track website visitor statistics
-
-### ✔ Visitor Analytics (Privacy Focused)
-
-Stores:
-
-* Hashed visitor identity
-* Page path
-* Referrer
-* User agent
-* Bot detection
-
-Does **NOT** store:
-
-* IP address
-* Personal information
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend:
-
-* React.js
-* Tailwind CSS
-* Framer Motion
-* Axios (coming soon)
-* React Router (coming soon)
-
-### Backend:
-
-* Node.js / Express.js
-* PostgreSQL
-* Prisma ORM
-* Multer
-* Cloudinary
-* CryptoJS
-* UserAgent library
-
----
-
-## 🔧 Environment Variables
-
-```
-DATABASE_URL="postgresql://user:pass@localhost:5432/izacu"
-PEPPER_SECRET="randomString"
-
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=""
-CLOUDINARY_API_KEY=""
-CLOUDINARY_API_SECRET=""
-```
-
----
-
-## 🧪 Example API: Track Visit
-
-```
-GET /track?path=/movies
-```
-
-```json
-{
-  "success": true,
-  "message": "Visit recorded"
-}
-```
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## 💬 Contact
-
-Open a GitHub Issue for problems, ideas, or contributions.
+Let me know if you want a **GitHub description** as well!
