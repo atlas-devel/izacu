@@ -29,4 +29,4 @@ This project is actively being built. Many features, UI components, and backend 
 
 ---
 
-Let me know if you want a **GitHub description** as well!
+
