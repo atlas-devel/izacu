@@ -9,7 +9,7 @@ The entire project is still under development, and many features are being added
 Below is the current homepage interface for Izacu.  
 Replace the placeholder link with your actual image path (`/homepage.png` or inside an `/assets` folder):
 
-![Izacu Homepage](./homepage.png)
+![Izacu Homepage](./client/public/homepage.png)
 
 ## Tech Stack
 
