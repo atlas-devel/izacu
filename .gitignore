@@ -1,0 +1,24 @@
+cat > .gitignore <<EOL
+# Ignore environment files
+.env
+
+# Ignore node_modules
+client/node_modules/
+server/node_modules/
+
+# Ignore build outputs
+client/build/
+client/dist/
+client/.env
+
+server/build/
+server/dist/
+server/.env
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+EOL

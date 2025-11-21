@@ -1,5 +1,4 @@
 import React from "react";
-import video from "../assets/videos/ai.mp4";
 import avatar from "../assets/images/avatar.webp";
 import { movies } from "../assets/data";
 import { VscVerifiedFilled } from "react-icons/vsc";

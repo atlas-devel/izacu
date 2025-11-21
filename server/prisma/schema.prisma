@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PublishStatus {
+  pending
+  published
+  removed
+}
+
+enum TranslatorName {
+  Rocky
+  Savimbi
+  Junior
+  Sankara
+  Gaheza
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  fullname  String
+  email     String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  movies    Movie[]
+}
+
+model Movie {
+  id               Int                @id @default(autoincrement())
+  title            String
+  description      String
+  releaseYear      Int
+  country          String
+  resolution       String             @default("HD")
+  movieUrl         String
+  posterPotrait    String
+  posterLandscape  String
+  publish_status   PublishStatus      @default(pending)
+  admin_id         Int
+  admin            Admin              @relation(fields: [admin_id], references: [id])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  movieGenres      MovieGenres[]
+  movieTranslators MovieTranslators[]
+}
+
+model Genres {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  movieGenres MovieGenres[]
+}
+
+model Translators {
+  id   Int            @id @default(autoincrement())
+  name TranslatorName @unique
+
+  movieTranslators MovieTranslators[]
+}
+
+model MovieTranslators {
+  movie_id      Int
+  translator_id Int
+  movie         Movie       @relation(fields: [movie_id], references: [id])
+  translator    Translators @relation(fields: [translator_id], references: [id])
+
+  @@id([movie_id, translator_id])
+}
+
+model MovieGenres {
+  movie_id Int
+  genre_id Int
+  movie    Movie  @relation(fields: [movie_id], references: [id])
+  genre    Genres @relation(fields: [genre_id], references: [id])
+
+  @@id([movie_id, genre_id])
+}
