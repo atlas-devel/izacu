@@ -1,5 +1,13 @@
 import express from "express";
+import {
+  changePasswordOTP,
+  verifyOTP,
+} from "../controllers/auth.controller.js";
+import { tokenAuth } from "../middleware/tokenAuth.js";
 
-const router = express.Router();
+const AuthRouter = express.Router();
 
-export default router;
+AuthRouter.post("/otp-generate", changePasswordOTP);
+AuthRouter.post("/verify-otp", tokenAuth, verifyOTP);
+
+export default AuthRouter;
