@@ -15,6 +15,9 @@ export async function getGenres(req, res) {
 
 export async function createGenre(req, res) {
   const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
+  }
   try {
     const exstingGenre = await prisma.genres.findUnique({
       where: { name },
