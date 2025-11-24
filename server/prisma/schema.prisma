@@ -19,12 +19,9 @@ enum PublishStatus {
   removed
 }
 
-enum TranslatorName {
-  Rocky
-  Savimbi
-  Junior
-  Sankara
-  Gaheza
+enum MovieType {
+  Series
+  Movie
 }
 
 model Admin {
@@ -36,25 +33,31 @@ model Admin {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   movies    Movie[]
-}
+} 
 
 model Movie {
-  id               Int                @id @default(autoincrement())
-  title            String
-  description      String
-  releaseYear      Int
-  country          String
-  resolution       String             @default("HD")
-  movieUrl         String
-  posterPotrait    String
-  posterLandscape  String
-  publish_status   PublishStatus      @default(pending)
-  admin_id         Int
-  admin            Admin              @relation(fields: [admin_id], references: [id])
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  movieGenres      MovieGenres[]
-  movieTranslators MovieTranslators[]
+  id              Int           @id @default(autoincrement())
+  title           String
+  slug            String        @unique
+  description     String
+  releaseYear     Int
+  country         String
+  resolution      String        @default("HD")
+  movieUrl        String
+  type            MovieType     @default(Movie)
+  posterPotrait   String?
+  posterLandscape String?
+  publish_status  PublishStatus @default(pending)
+  admin_id        Int
+  admin           Admin         @relation(fields: [admin_id], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  movieGenres     MovieGenres[]
+  translatorId    Int
+  translator      Translators   @relation(fields: [translatorId], references: [id])
+  download Int @default(0)
+  views Int @default(0)
+  // movieTranslators MovieTranslators[]
 }
 
 model Genres {
@@ -64,20 +67,21 @@ model Genres {
 }
 
 model Translators {
-  id   Int            @id @default(autoincrement())
-  name TranslatorName @unique
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-  movieTranslators MovieTranslators[]
+  // movieTranslators MovieTranslators[]
+  movies Movie[]
 }
 
-model MovieTranslators {
-  movie_id      Int
-  translator_id Int
-  movie         Movie       @relation(fields: [movie_id], references: [id])
-  translator    Translators @relation(fields: [translator_id], references: [id])
+// model MovieTranslators {
+//   movie_id      Int
+//   translator_id Int
+//   movie         Movie       @relation(fields: [movie_id], references: [id])
+//   translator    Translators @relation(fields: [translator_id], references: [id])
 
-  @@id([movie_id, translator_id])
-}
+//   @@id([movie_id, translator_id])
+// }
 
 model MovieGenres {
   movie_id Int
@@ -87,3 +91,13 @@ model MovieGenres {
 
   @@id([movie_id, genre_id])
 }
+
+model Visitors {
+  id          Int      @id @default(autoincrement())
+  count       Int
+  newVisitor  Int
+  pageViews   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
