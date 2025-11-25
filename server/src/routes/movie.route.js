@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changeMoviePublishStatus,
   createMovie,
   deleteMovie,
   getMovieBySlug,
@@ -25,6 +26,7 @@ router.post(
   createMovie
 );
 router.put("/:id", updateMovie);
+router.put("/publish-status/:id", changeMoviePublishStatus);
 router.delete("/:id", deleteMovie);
 
 export default router;
