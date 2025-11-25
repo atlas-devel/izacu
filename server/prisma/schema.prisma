@@ -25,18 +25,18 @@ enum MovieType {
 }
 
 model Admin {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   fullname  String
-  email     String   @unique
+  email     String    @unique
   password  String
-  role      String   @default("admin")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  otp String?
+  role      String    @default("admin")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  otp       String?
   otpExpiry DateTime?
-  verified Boolean  @default(false)
+  verified  Boolean   @default(false)
   movies    Movie[]
-} 
+}
 
 model Movie {
   id              Int           @id @default(autoincrement())
@@ -58,8 +58,8 @@ model Movie {
   movieGenres     MovieGenres[]
   translatorId    Int
   translator      Translators   @relation(fields: [translatorId], references: [id])
-  download Int @default(0)
-  views Int @default(0)
+  download        Int           @default(0)
+  views           Int           @default(0)
   // movieTranslators MovieTranslators[]
 }
 
@@ -96,11 +96,10 @@ model MovieGenres {
 }
 
 model Visitors {
-  id          Int      @id @default(autoincrement())
-  count       Int
-  newVisitor  Int
-  pageViews   Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  count      Int
+  newVisitor Int
+  pageViews  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
-

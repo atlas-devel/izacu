@@ -53,6 +53,7 @@ export const changePasswordOTP = async (req, res) => {
       message: "Failed to send OTP email",
     });
   }
+
   // storiting OTP and its expiry time
   const otpExpiry = new Date(Date.now() + 15 * 60 * 1000);
   try {
@@ -148,4 +149,70 @@ export const verifyOTP = async (req, res) => {
     console.error(error.message || error);
     return res.status(500).json({ success: false, message: "Server error" });
   }
+};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Email and password are required." });
+  }
+
+  try {
+    const existingAdmin = await prisma.admin.findUnique({ where: { email } });
+    if (!existingAdmin) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
+    }
+
+    // verify password
+
+    const passwordVerification = await bcrypt.compare(
+      password,
+      existingAdmin.password
+    );
+
+    if (!passwordVerification) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect password" });
+    }
+
+    const loginToken = jwt.sign({ email }, ENV.JWT_SECRET, { expiresIn: "6h" });
+
+    res.cookie("login_token", loginToken, {
+      httpOnly: true,
+      secure: ENV.NODE_ENV === "production",
+      sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 6 * 60 * 60 * 1000, // 6 hours
+    });
+    return res.status(200).json({
+      success: true,
+      message: `welcome back ${existingAdmin.fullname}`,
+    });
+  } catch (error) {
+    console.error(error.message || error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const logout = async (_, res) => {
+  res.clearCookie("login_token", {
+    httpOnly: true,
+    secure: ENV.NODE_ENV === "production",
+    sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+  });
+  return res
+    .status(200)
+    .json({ success: true, message: "Logged out successfully" });
+};
+
+// consistenly check admin logged in and token expiry
+
+export const checkAdmin = async (_, res) => {
+  return res.status(200).json({
+    success: true,
+  });
 };

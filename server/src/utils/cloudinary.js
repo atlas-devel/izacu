@@ -12,7 +12,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "test",
+    folder: ENV.NODE_ENV === "production" ? "izacu" : "test",
     allowed_formats: ["jpg", "jpeg", "png", "gif", "webp"],
     transformation: [{ width: 1920, quality: "auto" }],
   },
