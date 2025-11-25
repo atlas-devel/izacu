@@ -9,6 +9,7 @@ export async function getMovies(req, res) {
           include: { genre: true },
         },
       },
+      where: { publish_status: "published" },
     });
 
     if (!movies.length) {
@@ -27,7 +28,7 @@ export async function getMovieBySlug(req, res) {
 
   try {
     const movie = await prisma.movie.findUnique({
-      where: { slug },
+      where: { slug, publish_status: "published" },
       include: {
         translator: true,
         movieGenres: { include: { genre: true } },
@@ -50,7 +51,10 @@ export async function getMoviesByTranslator(req, res) {
 
   try {
     const movies = await prisma.movie.findMany({
-      where: { translatorId: Number(translatorId) },
+      where: {
+        translatorId: Number(translatorId),
+        publish_status: "published",
+      },
       include: {
         translator: true,
         movieGenres: { include: { genre: true } },
@@ -78,6 +82,7 @@ export async function getMoviesByGenre(req, res) {
       where: {
         movieGenres: {
           some: { genre_id: Number(genreId) },
+          publish_status: "published",
         },
       },
       include: {
