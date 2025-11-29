@@ -23,7 +23,7 @@ const App = () => {
           {/* Public Pages wrapped in RenderAll layout */}
           <Route element={<RenderAll />}>
             <Route index element={<HomePage />} />
-            <Route path="/watch" element={<WatchPage />} />
+            <Route path="/watch/:slug" element={<WatchPage />} />
             <Route path="/browse-movies" element={<SearchPage />} />
           </Route>
           {/* Admin Pages wrapped in AdminLayout */}

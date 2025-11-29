@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import avatar from "../assets/images/avatar.webp";
+import { useParams } from "react-router-dom";
+import api from "../lib/axios";
 import { movies } from "../assets/data";
-import { VscVerifiedFilled } from "react-icons/vsc";
 
 const WatchPage = () => {
-  const type = "Series";
+  const [movie, setMovie] = useState({});
+  const { slug } = useParams();
+
+  const getMovie = async () => {
+    try {
+      const res = await api.get(`/movies/${slug}`);
+      setMovie(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log("movie not found");
+    }
+  };
+
+  useEffect(() => {
+    getMovie();
+  }, [import.meta.env.VITE_API_URL, slug]);
+  const type = "series";
   return (
     <section className="bg-gradient-to-t from-blue-950 to-[#0f0f11] h-full w-full overflow-y-scroll scroll-style flex ">
       <div className=" flex flex-col md:flex-row gap-4 w-full">

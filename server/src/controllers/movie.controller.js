@@ -267,3 +267,23 @@ export async function changeMoviePublishStatus(req, res) {
       .json({ message: "Error updating publish status", error });
   }
 }
+
+// added get movie by id controller by Leon
+
+// export const getMovieById = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const movie = await prisma.movie.findUnique({
+//       where: { id: Number(id) },
+//     });
+//     if (!movie) {
+//       return res.status(404).json({ message: "Movie not found" });
+//     }
+//     return res.status(200).json(movie);
+//   } catch (error) {
+//     console.error("Error: " + error);
+//     return res
+//       .status(500)
+//       .json({ success: false, message: "Error fetching movie", error });
+//   }
+// };
