@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { MyContext } from "../context/Context";
 import { FaRegPlayCircle } from "react-icons/fa";
-import { MyContext } from "../../context/Context";
 
-const Popular = ({ type }) => {
+const Category = () => {
   const { allMovies } = useContext(MyContext);
+
+  const type = allMovies.type || "Genre";
   return (
     <div>
       <div className="flex justify-between items-center mx-8 mt-3 ">
@@ -42,4 +44,4 @@ const Popular = ({ type }) => {
   );
 };
 
-export default Popular;
+export default Category;

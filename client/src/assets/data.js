@@ -1,10 +1,6 @@
 import { IoMdCompass } from "react-icons/io";
 import { BsBoxArrowInUp } from "react-icons/bs";
 import { GoDeviceCameraVideo } from "react-icons/go";
-import { RiPlayList2Fill } from "react-icons/ri";
-import person from "./images/slide4.jpg";
-import { IoWifi } from "react-icons/io5";
-import { GoDotFill } from "react-icons/go";
 
 import barbieLandscape from "./images/barbie_landscape.webp";
 import interstellar from "./images/interstellar_landscap.webp";
@@ -50,6 +46,12 @@ export const typeOfMovies = [
   { id: 11, name: "Animation", Icon: BiMoviePlay },
   { id: 12, name: "Documentary", Icon: FaFilm },
   { id: 13, name: "War", Icon: GiBattleGear },
+  { id: 14, name: "Crime", Icon: RiPoliceCarFill },
+  { id: 15, name: "Family", Icon: MdFamilyRestroom },
+  { id: 16, name: "Musical", Icon: GiMusicalNotes },
+  { id: 17, name: "Western", Icon: GiCowboyBoot },
+  { id: 18, name: "Sport", Icon: MdSportsSoccer },
+  { id: 19, name: "Historical", Icon: FaFilm },
 ];
 
 export const footerQuickLinks = [
@@ -155,8 +157,6 @@ export const movies = [
   // ...repeat same structure up to _id: 1039
 ];
 
-
-
 export const heroMovieBanner = [
   {
     _id: 1,
@@ -198,6 +198,9 @@ import profile from "../assets/images/slide4.jpg";
 import little_mermaid from "../assets/images/little mermaid.webp";
 import the_Lord_of_rings from "../assets/images/the lord of the rings.webp";
 import top_gun from "../assets/images/top gun.webp";
+import { GiCowboyBoot, GiMusicalNotes } from "react-icons/gi";
+import { MdFamilyRestroom, MdSportsSoccer } from "react-icons/md";
+import { RiPoliceCarFill } from "react-icons/ri";
 
 export const moviesData = [
   {

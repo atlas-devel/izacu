@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { MyContext } from "../context/Context";
 import { useContext } from "react";
 import { MdMovieCreation } from "react-icons/md";
+import { typeOfMovies } from "../assets/data";
 
 const Genres = ({ arrowRotate, setArrowRotate, genres }) => {
   const { showSidebar } = useContext(MyContext);
@@ -41,14 +42,19 @@ const Genres = ({ arrowRotate, setArrowRotate, genres }) => {
             : "hidden"
         }`}
       >
-        {genres.map((genre) => (
-          <div
-            key={genre.id}
-            className="py-2 cursor-pointer px-4 ml-5 text-sm text-gray-100 rounded-md font-semibold hover:bg-red-800"
-          >
-            {genre.name}
-          </div>
-        ))}
+        {genres.map((genre) => {
+          const movieType = typeOfMovies.find((mov) => mov.name === genre.name);
+          const Icon = movieType?.Icon;
+          return (
+            <div
+              key={genre.id}
+              className="py-2 flex items-centerg gap-2 flex-nowrap line-clamp-1 cursor-pointer px-4 ml-5 text-sm text-gray-100 rounded-md font-semibold hover:bg-red-800"
+            >
+              <Icon />
+              {genre.name}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
