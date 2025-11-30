@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { MyContext } from "../context/Context";
 import { useContext } from "react";
 import { BiMicrophone } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const Translators = ({ arrowRotate, setArrowRotate, translators }) => {
   const { showSidebar } = useContext(MyContext);
+
   return (
     <section className=" flex flex-col flex-1 overflow-y-scroll scroll-style-one">
       <div className="flex  flex-col   cursor-pointer  py-3 hover:bg-red-800 px-2  rounded-md capitalize  ">
@@ -40,12 +42,14 @@ const Translators = ({ arrowRotate, setArrowRotate, translators }) => {
 
       <div className={` ${arrowRotate.interpretor ? "block" : "hidden"} `}>
         {translators.map((translator) => (
-          <div
+          <Link
             key={translator.id}
-            className="py-2 px-4 ml-5 text-sm text-gray-100 rounded-md font-semibold hover:bg-red-800"
+            to={`/category?translator=${translator.name}&genre=None`}
           >
-            {translator.name}
-          </div>
+            <div className="py-2 px-4 ml-5 text-sm text-gray-100 rounded-md font-semibold hover:bg-red-800">
+              {translator.name}
+            </div>
+          </Link>
         ))}
       </div>
     </section>
