@@ -1,14 +1,55 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { MyContext } from "../context/Context";
 import { FaRegPlayCircle } from "react-icons/fa";
-import { MyContext } from "../../context/Context";
+import { useSearchParams } from "react-router-dom";
+import api from "../lib/axios";
+import { useEffect } from "react";
 
-const Popular = ({ type }) => {
+const CategoryPage = () => {
   const { allMovies } = useContext(MyContext);
+  const [searchParams] = useSearchParams();
+
+  const translator = searchParams.get("translator");
+  const genre = searchParams.get("genre");
+
+  const getContent = async () => {
+    if (translator !== "None") {
+      try {
+        const res = await api.get(`/movies/translator-name/${translator}`);
+        const data = res.data;
+        if (data.success === false) {
+          console.log(data.message);
+          throw new Error(data.message);
+        }
+        console.log(res.data);
+      } catch (error) {
+        console.error(`Error: Fetching Content for translator ${translator}`);
+      }
+    } else {
+      try {
+        const res = await api.get(`/movies/genre-name/${genre}`);
+        const data = res.data;
+
+        if (data.success === false) {
+          throw new Error(data.message);
+        }
+        console.log(res.data);
+      } catch (error) {
+        console.error(error.response.data.message);
+        console.error(`Error: Fetching Content for genre ${genre}`);
+      }
+    }
+  };
+  useEffect(() => {
+    getContent();
+  }, [translator, genre]);
+
+  const type = allMovies.type || "Genre";
   return (
-    <div>
+    <div className="bg-gradient-to-b from-blue-950 to-[#0f0f11] relative pt-4 h-full w-full overflow-y-scroll scroll-style">
       <div className="flex justify-between items-center mx-8 mt-3 ">
         <h1 className=" border-l-4 border-red-800 inline-block pl-3 text-md md:text-2xl capitalize font-bold text-gray-200 mt-10">
-          {type}
+          {translator !== "None" ? `by ${translator}` : `${genre} Content`}
         </h1>
         <button className="text-md md:text-md font-light capitalize  text-indigo-100 border-1 border-indigo-100/20 hover:border-red-800 duration-200 hover:text-red-800 hover:cursor-pointer px-2 py-1 ">
           Load More
@@ -42,4 +83,4 @@ const Popular = ({ type }) => {
   );
 };
 
-export default Popular;
+export default CategoryPage;

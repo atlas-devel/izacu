@@ -47,7 +47,7 @@ const Sidebar = () => {
             <button
               key={id}
               onClick={() => name === "browse" && navigate("/browse-movies")}
-              className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 hover:bg-red-600/90 active:scale-95 group ${
+              className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 hover:bg-red-700/90 active:scale-95 group ${
                 showSidebar ? "" : "justify-center"
               }`}
             >

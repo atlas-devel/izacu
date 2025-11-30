@@ -13,6 +13,7 @@ import Translators from "./Admins/Translators";
 import Movies from "./Admins/Movies";
 import Comments from "./Admins/Comments";
 import Profile from "./Admins/Profile";
+import CategoryPage from "./page/CategoryPage";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/watch/:slug" element={<WatchPage />} />
             <Route path="/browse-movies" element={<SearchPage />} />
+            <Route path="/category" element={<CategoryPage />} />
           </Route>
           {/* Admin Pages wrapped in AdminLayout */}
           <Route element={<AdminLayout />}>
