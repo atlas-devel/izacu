@@ -1,31 +1,61 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { footerData, heroMovieBanner, moviesData } from "../assets/data";
 import { FaPlay } from "react-icons/fa";
 import { IoWifi } from "react-icons/io5";
 import RenderMovies from "../component/RenderMovies";
 import Footer from "../component/Footer";
+import AllCategories from "../component/MovieCategories/AllCategories";
 
 const HomePage = () => {
+  const scrollRef = useRef(null);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const scrollWidth = scrollContainer.scrollWidth;
+    const clientWidth = scrollContainer.clientWidth;
+
+    intervalRef.current = setInterval(() => {
+      if (scrollContainer.scrollLeft >= scrollWidth - clientWidth) {
+        scrollContainer.scrollLeft = 0;
+      } else {
+        scrollContainer.scrollLeft += clientWidth;
+      }
+    }, 5000); // Change slide every 5 seconds
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
   const handleSelection = (e) => {
     console.log(e.target.value);
   };
+
   return (
-    <section className="bg-gradient-to-b from-blue-950 to-[#0f0f11] h-full w-full overflow-y-scroll scroll-style ">
-      <div className="flex w-full overflow-x-scroll scroll-style-one ">
+    <section className="flex flex-col justify-between bg-gradient-to-b from-blue-950 to-[#0f0f11] h-full w-full overflow-y-scroll scroll-style">
+      <div
+        ref={scrollRef}
+        className="flex shrink-0 w-full overflow-x-scroll scroll-style-one scroll-smooth"
+      >
         {heroMovieBanner.map(
           ({ image, name, description, releaseYear, _id }) => {
             return (
               <div
                 key={_id}
-                className="flex-shrink-0 w-full h-[45vh]  overflow-hidden  "
+                className="flex-shrink-0 w-full h-[45vh] overflow-hidden"
               >
-                <div className="w-[94%] h-full m-auto rounded-md relative ">
+                <div className="w-[94%] h-full m-auto rounded-md relative">
                   <img
-                    className="object-cover  w-full h-full  "
+                    className="object-cover w-full h-full"
                     src={image}
                     alt=""
                   />
-                  <div className="absolute  flex justify-between flex-col top-0 left-0  bg-[#010103]/30 z-20 h-full w-full">
+                  <div className="absolute flex justify-between flex-col top-0 left-0 bg-[#010103]/30 z-20 h-full w-full">
                     <div className="text-white mx-2 inline-flex items-center max-w-fit gap-1 bg-red-800 px-2 py-1 rounded-2xl hover:bg-red-700 m-3">
                       <span>
                         <IoWifi />
@@ -33,14 +63,14 @@ const HomePage = () => {
                       <span>Live</span>
                     </div>
                     <div className="mx-4">
-                      <p className=" text-gray-100  text-5xl uppercase font-semibold">
+                      <p className="text-gray-100 text-5xl uppercase font-semibold">
                         {name}
                       </p>
                       <p className="font-semibold text-white mb-2">
                         {releaseYear}
                       </p>
-                      <div className="hidden md:block mb-6  p-3 bg-red-800 backdrop-blur-2xl rounded-xl w-[65%] lg:max-w-[45em]">
-                        <p className=" text-white/90 line-clamp-2 ">
+                      <div className="hidden md:block mb-6 p-3 bg-red-800 backdrop-blur-2xl rounded-xl w-[65%] lg:max-w-[45em]">
+                        <p className="text-white/90 line-clamp-2">
                           {description}
                         </p>
                       </div>
@@ -55,8 +85,8 @@ const HomePage = () => {
           }
         )}
       </div>
-      <div className="flex flex-col items-end  mr-10 mt-5  ">
-        <h1 className="text-gray-300 font-semibold capitalize text-lg  inline-block border-r-4 pr-4 mb-4 border-red-800 ">
+      <div className="flex flex-col items-end mr-10 mt-5">
+        <h1 className="text-gray-300 font-semibold capitalize text-lg inline-block border-r-4 pr-4 mb-4 border-red-800">
           filter movies
         </h1>
         <select
@@ -73,14 +103,13 @@ const HomePage = () => {
           <option value="Recently added">Recently added</option>
         </select>
       </div>
-      {moviesData.map(({ type, movies, id }) => {
+      {/* {moviesData.map(({ type, movies, id }) => {
         return <RenderMovies key={id} type={type} movies={movies} />;
-      })}
-      <div
-        className="
-      grid grid-cols-2 md:grid-cols-4 gap-4 text-white bg-gradient-to-br from-blue-950 to-blue-[#0f0f11]  border-t border-white/20 p-6 
-      "
-      >
+      })} */}
+
+      {/* Movie categories */}
+      <AllCategories />
+      <div className="grid  grid-cols-2 md:grid-cols-4 gap-4 text-white bg-gradient-to-br from-blue-950 to-blue-[#0f0f11] border-t border-white/20  p-6">
         {footerData.map((items, index) => {
           return <Footer key={index + 1} grid={items.grid} data={items.data} />;
         })}
