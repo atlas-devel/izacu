@@ -105,7 +105,7 @@ export async function getMoviesByGenre(req, res) {
 }
 
 export async function createMovie(req, res) {
-  const userId = 3;
+  const userId = 1;
 
   const {
     title,
