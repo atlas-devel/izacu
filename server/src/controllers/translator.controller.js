@@ -15,6 +15,9 @@ export async function getTranslators(req, res) {
 
 export async function createTranslator(req, res) {
   const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
+  }
   try {
     const existingTranslator = await prisma.translators.findUnique({
       where: { name },
