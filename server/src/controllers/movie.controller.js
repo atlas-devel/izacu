@@ -74,6 +74,77 @@ export async function getMoviesByTranslator(req, res) {
   }
 }
 
+// leon added get movie by translator name controller
+export const getMovieByTranslatorName = async (req, res) => {
+  const { translatorName } = req.params;
+  console.log(translatorName);
+  if (!translatorName) {
+    return res.status(400).json({ message: "Translator name is required" });
+  }
+  const translatorId = await prisma.translators.findUnique({
+    where: { name: translatorName },
+  });
+  if (!translatorId) {
+    return res.status(404).json({ message: "Translator not found" });
+  }
+  try {
+    const movies = await prisma.movie.findMany({
+      where: {
+        translatorId: Number(translatorId.id),
+        publish_status: "published",
+      },
+      include: {
+        translator: true,
+      },
+    });
+    console.log(movies);
+    if (movies.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No movies found for this translator" });
+    }
+    return res.status(200).json(movies);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching movies", error });
+  }
+};
+export const getMovieByGenreName = async (req, res) => {
+  const { genreName } = req.params;
+
+  if (!genreName) {
+    return res.status(400).json({ message: "Genre name is required" });
+  }
+  const genre = await prisma.genres.findUnique({
+    where: { name: genreName },
+  });
+
+  if (!genre) {
+    return res.status(404).json({ message: "Genre not found" });
+  }
+  try {
+    const movies = await prisma.movie.findMany({
+      where: {
+        movieGenres: { some: { genre_id: Number(genre.id) } },
+        publish_status: "published",
+      },
+      include: {
+        translator: true,
+        movieGenres: { include: { genre: true } },
+      },
+    });
+    console.log(movies);
+    if (movies.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No movies found for this genre" });
+    }
+    return res.status(200).json(movies);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching movies", error });
+  }
+};
+// ________________________________________________
+
 export async function getMoviesByGenre(req, res) {
   const { genreId } = req.params;
 
@@ -267,3 +338,23 @@ export async function changeMoviePublishStatus(req, res) {
       .json({ message: "Error updating publish status", error });
   }
 }
+
+// added get movie by id controller by Leon
+
+// export const getMovieById = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const movie = await prisma.movie.findUnique({
+//       where: { id: Number(id) },
+//     });
+//     if (!movie) {
+//       return res.status(404).json({ message: "Movie not found" });
+//     }
+//     return res.status(200).json(movie);
+//   } catch (error) {
+//     console.error("Error: " + error);
+//     return res
+//       .status(500)
+//       .json({ success: false, message: "Error fetching movie", error });
+//   }
+// };

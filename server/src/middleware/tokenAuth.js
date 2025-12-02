@@ -8,7 +8,7 @@ export const tokenAuth = async (req, res, next) => {
       .status(401)
       .json({ success: false, message: "Unauthorized: No token provided" });
   }
-  const decodedEmail = await jwt.verify(change_password_token, ENV.JWT_SECRET);
+  const decodedEmail = jwt.verify(change_password_token, ENV.JWT_SECRET);
   if (!decodedEmail) {
     return res
       .status(401)

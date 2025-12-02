@@ -8,6 +8,8 @@ import {
   getMoviesByGenre,
   getMoviesByTranslator,
   updateMovie,
+  getMovieByTranslatorName,
+  getMovieByGenreName,
 } from "../controllers/movie.controller.js";
 import parse from "../utils/cloudinary.js";
 
@@ -17,6 +19,9 @@ router.get("/", getMovies);
 router.get("/:slug", getMovieBySlug);
 router.get("/translator/:translatorId", getMoviesByTranslator);
 router.get("/genre/:genreId", getMoviesByGenre);
+router.get("/translator-name/:translatorName", getMovieByTranslatorName);
+router.get("/genre/:genreId", getMoviesByGenre);
+router.get("/genre-name/:genreName", getMovieByGenreName);
 router.post(
   "/",
   parse.fields([

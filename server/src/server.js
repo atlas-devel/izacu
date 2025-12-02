@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import { ENV } from "./utils/ENV.js";
 import AdminRoutes from "./routes/admin.routes.js";
 import movieRoutes from "./routes/movie.route.js";

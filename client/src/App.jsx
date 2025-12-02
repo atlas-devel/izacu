@@ -13,6 +13,7 @@ import Translators from "./Admins/Translators";
 import Movies from "./Admins/Movies";
 import Comments from "./Admins/Comments";
 import Profile from "./Admins/Profile";
+import CategoryPage from "./page/CategoryPage";
 
 const App = () => {
   return (
@@ -23,8 +24,9 @@ const App = () => {
           {/* Public Pages wrapped in RenderAll layout */}
           <Route element={<RenderAll />}>
             <Route index element={<HomePage />} />
-            <Route path="/watch" element={<WatchPage />} />
+            <Route path="/watch/:slug" element={<WatchPage />} />
             <Route path="/browse-movies" element={<SearchPage />} />
+            <Route path="/category" element={<CategoryPage />} />
           </Route>
           {/* Admin Pages wrapped in AdminLayout */}
           <Route element={<AdminLayout />}>
