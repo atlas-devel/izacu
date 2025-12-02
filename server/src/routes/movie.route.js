@@ -18,6 +18,7 @@ const router = express.Router();
 router.get("/", getMovies);
 router.get("/:slug", getMovieBySlug);
 router.get("/translator/:translatorId", getMoviesByTranslator);
+router.get("/genre/:genreId", getMoviesByGenre);
 router.get("/translator-name/:translatorName", getMovieByTranslatorName);
 router.get("/genre/:genreId", getMoviesByGenre);
 router.get("/genre-name/:genreName", getMovieByGenreName);

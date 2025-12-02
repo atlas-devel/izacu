@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,17 +5,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-enum PublishStatus {
-  pending
-  published
-  removed
-}
-
-enum MovieType {
-  Series
-  Movie
 }
 
 model Admin {
@@ -41,23 +24,26 @@ model Admin {
 model Movie {
   id              Int           @id @default(autoincrement())
   title           String
-  slug            String        @unique
   description     String
   releaseYear     Int
   country         String
   resolution      String        @default("HD")
   movieUrl        String
-  type            MovieType     @default(Movie)
-  posterPotrait   String?
-  posterLandscape String?
   publish_status  PublishStatus @default(pending)
   admin_id        Int
-  admin           Admin         @relation(fields: [admin_id], references: [id])
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  movieGenres     MovieGenres[]
+  posterLandscape String?
+  posterPotrait   String?
+  download        Int           @default(0)
+  slug            String        @unique
   translatorId    Int
+  type            MovieType     @default(Movie)
+  views           Int           @default(0)
+  admin           Admin         @relation(fields: [admin_id], references: [id])
   translator      Translators   @relation(fields: [translatorId], references: [id])
+  movieGenres     MovieGenres[]
+  comments        Comments[] // Relation to Comments model
   download        Int           @default(0)
   views           Int           @default(0)
   // movieTranslators MovieTranslators[]
@@ -70,27 +56,16 @@ model Genres {
 }
 
 model Translators {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
-  // movieTranslators MovieTranslators[]
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
   movies Movie[]
 }
-
-// model MovieTranslators {
-//   movie_id      Int
-//   translator_id Int
-//   movie         Movie       @relation(fields: [movie_id], references: [id])
-//   translator    Translators @relation(fields: [translator_id], references: [id])
-
-//   @@id([movie_id, translator_id])
-// }
 
 model MovieGenres {
   movie_id Int
   genre_id Int
-  movie    Movie  @relation(fields: [movie_id], references: [id])
   genre    Genres @relation(fields: [genre_id], references: [id])
+  movie    Movie  @relation(fields: [movie_id], references: [id])
 
   @@id([movie_id, genre_id])
 }
@@ -102,4 +77,33 @@ model Visitors {
   pageViews  Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+// Comments model 
+model Comments {
+  id        Int           @id @default(autoincrement())
+  movieId   Int
+  userName  String?
+  content   String
+  status    CommentStatus @default(Active)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  movie     Movie         @relation(fields: [movieId], references: [id])
+}
+
+enum PublishStatus {
+  pending
+  published
+  removed
+}
+
+enum MovieType {
+  Series
+  Movie
+}
+
+enum CommentStatus {
+  Active
+  Inactive
+}
 }

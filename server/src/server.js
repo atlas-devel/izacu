@@ -7,7 +7,7 @@ import AuthRouter from "./routes/auth.route.js";
 import genreRoutes from "./routes/genre.route.js";
 import translatorRoutes from "./routes/translator.route.js";
 import visitorsRoutes from "./routes/visitors.route.js";
-import cookieParser from "cookie-parser";
+import commentRoutes from "./routes/comment.route.js";
 
 const app = express();
 const PORT = ENV.PORT || 4001;
@@ -30,6 +30,7 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/genres", genreRoutes);
 app.use("/api/translators", translatorRoutes);
 app.use("/api/visitors", visitorsRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.listen(PORT, () => {
   console.log("server has started on http://localhost:" + PORT);
