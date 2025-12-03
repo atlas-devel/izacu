@@ -13,6 +13,7 @@ export const isAuthenticatedAdmin = async (req, res, next) => {
     if (!email) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
+    req.email = email;
     const existingAdmin = await prisma.admin.findUnique({ where: { email } });
     if (!existingAdmin) {
       return res.status(401).json({ success: false, message: "Unauthorized " });

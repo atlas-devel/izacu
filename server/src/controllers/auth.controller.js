@@ -5,38 +5,93 @@ import ENV from "../utils/ENV.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Email and password are required." });
+  }
+
+  try {
+    const existingAdmin = await prisma.admin.findUnique({ where: { email } });
+    if (!existingAdmin) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Admin not found" });
+    }
+
+    if (existingAdmin.verified === false) {
+      const reset_password_token = jwt.sign({ email }, ENV.JWT_SECRET, {
+        expiresIn: "15m",
+      });
+
+      res.cookie("reset_password_token", reset_password_token, {
+        httpOnly: true,
+        secure: ENV.NODE_ENV === "production",
+        sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 15 * 60 * 1000, // 15 minutes
+      });
+
+      return res.status(403).json({
+        success: false,
+        message: "Account not verified. Please change your default password.",
+      });
+    }
+
+    // verify password
+    const passwordVerification = await bcrypt.compare(
+      password,
+      existingAdmin.password
+    );
+
+    if (!passwordVerification) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect password" });
+    }
+
+    const loginToken = jwt.sign({ email }, ENV.JWT_SECRET, { expiresIn: "6h" });
+
+    res.cookie("login_token", loginToken, {
+      httpOnly: true,
+      secure: ENV.NODE_ENV === "production",
+      sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 6 * 60 * 60 * 1000, // 6 hours
+    });
+    return res.status(200).json({
+      success: true,
+      message: `welcome back ${existingAdmin.fullname}`,
+    });
+  } catch (error) {
+    console.error(error.message || error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 export const changePasswordOTP = async (req, res) => {
-  const { password, email } = req.body;
-  if (!password || !email) {
+  const { existingPassword } = req.body;
+  const email = req.email_reset;
+  if (!existingPassword || !email) {
     return res
       .status(400)
       .json({ success: false, message: "Email and password are required." });
   }
 
   const existingAdmin = await prisma.admin.findUnique({ where: { email } });
+
   // checking if admin exists
   if (!existingAdmin) {
     return res.status(404).json({ success: false, message: "Admin not found" });
   }
-
   // checking if password is the same as the current one
 
-  if (existingAdmin.password !== password) {
+  if (existingAdmin.password !== existingPassword) {
     return res
       .status(401)
       .json({ success: false, message: "Incorrect password" });
   }
 
-  // generate JWT token
-  const token = jwt.sign({ email }, ENV.JWT_SECRET, { expiresIn: "15m" });
-
-  // sending token in response
-  res.cookie("change_password_token", token, {
-    httpOnly: true,
-    secure: ENV.NODE_ENV === "production",
-    sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
-    maxAge: 15 * 60 * 1000, // 15 minutes
-  });
   const OTP = generateOTP();
   try {
     const otpOptions = {
@@ -45,7 +100,7 @@ export const changePasswordOTP = async (req, res) => {
       subject: "Password Change OTP",
       text: `Your OTP for password change is: ${OTP}`,
     };
-    await transporter.sendMail(otpOptions);
+    // await transporter.sendMail(otpOptions);
   } catch (error) {
     console.error("Error sending OTP email:", error.message || error);
     return res.status(500).json({
@@ -75,7 +130,10 @@ export const changePasswordOTP = async (req, res) => {
 
 export const verifyOTP = async (req, res) => {
   const { otp, newPassword } = req.body;
-  const { email } = req;
+  const email = req.email_reset;
+
+  console.log(email);
+
   if (!otp) {
     return res.status(400).json({ success: false, message: "OTP is required" });
   }
@@ -141,46 +199,20 @@ export const verifyOTP = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Failed to update password" });
     }
-    await transporter.sendMail(successOptions);
-    return res
-      .status(200)
-      .json({ success: true, message: "Password updated successfully" });
-  } catch (error) {
-    console.error(error.message || error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-};
+    // await transporter.sendMail(successOptions);
 
-export const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Email and password are required." });
-  }
+    // clear reset_toke
 
-  try {
-    const existingAdmin = await prisma.admin.findUnique({ where: { email } });
-    if (!existingAdmin) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Admin not found" });
-    }
+    res.clearCookie("reset_password_token", {
+      httpOnly: true,
+      secure: ENV.NODE_ENV === "production",
+      sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+    });
 
-    // verify password
-
-    const passwordVerification = await bcrypt.compare(
-      password,
-      existingAdmin.password
-    );
-
-    if (!passwordVerification) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Incorrect password" });
-    }
-
-    const loginToken = jwt.sign({ email }, ENV.JWT_SECRET, { expiresIn: "6h" });
+    // login token
+    const loginToken = jwt.sign({ email }, ENV.JWT_SECRET, {
+      expiresIn: "6h",
+    });
 
     res.cookie("login_token", loginToken, {
       httpOnly: true,
@@ -188,10 +220,10 @@ export const login = async (req, res) => {
       sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 6 * 60 * 60 * 1000, // 6 hours
     });
-    return res.status(200).json({
-      success: true,
-      message: `welcome back ${existingAdmin.fullname}`,
-    });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Password updated successfully" });
   } catch (error) {
     console.error(error.message || error);
     return res.status(500).json({ success: false, message: "Server error" });
@@ -210,7 +242,6 @@ export const logout = async (_, res) => {
 };
 
 // consistenly check admin logged in and token expiry
-
 export const checkAdmin = async (_, res) => {
   return res.status(200).json({
     success: true,
