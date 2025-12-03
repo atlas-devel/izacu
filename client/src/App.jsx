@@ -16,6 +16,8 @@ import Profile from "./Admins/Profile";
 import CategoryPage from "./page/CategoryPage";
 import LoginAdmin from "./Admins/login/LoginAdmin";
 import OTPverification from "./Admins/login/OTPverification";
+import { Toaster } from "sonner";
+import ProtectedRoute from "./component/Protected route/ProtectedRoute";
 
 const App = () => {
   return (
@@ -36,7 +38,13 @@ const App = () => {
             <Route path="/category" element={<CategoryPage />} />
           </Route>
           {/* Admin Pages wrapped in AdminLayout */}
-          <Route element={<AdminLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/genres" element={<Genre />} />
             <Route path="/admin/translators" element={<Translators />} />
@@ -46,6 +54,7 @@ const App = () => {
           </Route>
         </Routes>
       </Context>
+      <Toaster />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import genreRoutes from "./routes/genre.route.js";
 import translatorRoutes from "./routes/translator.route.js";
 import visitorsRoutes from "./routes/visitors.route.js";
 import commentRoutes from "./routes/comment.route.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = ENV.PORT || 4001;
