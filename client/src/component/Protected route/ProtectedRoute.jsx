@@ -9,10 +9,11 @@ const ProtectedRoute = ({ children }) => {
     try {
       const res = await api.get("/auth/check-auth");
       setAuth(true);
-      console.log(res.data);
+      if (res.data.success === true) {
+      }
     } catch (error) {
       setAuth(false);
-      console.error("Error verifying admin:", error);
+      console.error("Error verifying admin:", error.response?.data.message);
     }
   };
   useEffect(() => {

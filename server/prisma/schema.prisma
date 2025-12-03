@@ -44,8 +44,7 @@ model Movie {
   translator      Translators   @relation(fields: [translatorId], references: [id])
   movieGenres     MovieGenres[]
   comments        Comments[] // Relation to Comments model
-  download        Int           @default(0)
-  views           Int           @default(0)
+
   // movieTranslators MovieTranslators[]
 }
 
@@ -105,5 +104,4 @@ enum MovieType {
 enum CommentStatus {
   Active
   Inactive
-}
 }

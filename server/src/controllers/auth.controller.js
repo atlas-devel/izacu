@@ -101,7 +101,7 @@ export const changePasswordOTP = async (req, res) => {
       subject: "Password Change OTP",
       text: `Your OTP for password change is: ${OTP}`,
     };
-    // await transporter.sendMail(otpOptions);
+    await transporter.sendMail(otpOptions);
   } catch (error) {
     console.error("Error sending OTP email:", error.message || error);
     return res.status(500).json({
@@ -200,7 +200,7 @@ export const verifyOTP = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Failed to update password" });
     }
-    // await transporter.sendMail(successOptions);
+    await transporter.sendMail(successOptions);
 
     // clear reset_toke
 
