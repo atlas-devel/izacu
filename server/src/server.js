@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = ENV.PORT || 4001;
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173", "http://127.0.0.1:5173"];
 
 // middlewares
 app.use(express.json());

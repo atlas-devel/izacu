@@ -14,13 +14,20 @@ import Movies from "./Admins/Movies";
 import Comments from "./Admins/Comments";
 import Profile from "./Admins/Profile";
 import CategoryPage from "./page/CategoryPage";
+import LoginAdmin from "./Admins/login/LoginAdmin";
+import OTPverification from "./Admins/login/OTPverification";
 
 const App = () => {
   return (
     <div>
       <Context>
         <Routes>
-          <Route path="/login" element={<LoginAdmins />} />
+          {/* admin login */}
+          <Route path="/admin/login" element={<LoginAdmin />} />
+          <Route
+            path="/admin/reset/password-default"
+            element={<OTPverification />}
+          />
           {/* Public Pages wrapped in RenderAll layout */}
           <Route element={<RenderAll />}>
             <Route index element={<HomePage />} />
