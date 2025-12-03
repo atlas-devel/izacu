@@ -19,7 +19,6 @@ export default function Genre() {
     fetchGenres();
   }, []);
 
-  // Filter genres based on search term
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setFilteredGenres(genres);

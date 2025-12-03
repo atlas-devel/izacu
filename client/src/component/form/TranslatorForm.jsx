@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import api from "../../lib/axios";
 
-export default function TranslatorForm({ setForm }) {
+export default function TranslatorForm({ setForm, onTranslatorCreated }) {
   const [name, setName] = useState("");
 
   async function handleSubmit(e) {
@@ -10,8 +10,12 @@ export default function TranslatorForm({ setForm }) {
     try {
       await api.post("/translators", { name });
       toast.success("Translator created successfully!");
-      setForm(false);
-      window.location.reload();
+      setName("");
+      if (typeof onTranslatorCreated === "function") {
+        onTranslatorCreated();
+      } else {
+        setForm(false);
+      }
     } catch (error) {
       console.error(error);
       if (error.response && error.response.data && error.response.data.error) {
