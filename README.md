@@ -21,7 +21,13 @@ Below is the current homepage interface for Izacu.
 - PostgreSQL  
 - Prisma ORM  
 - Multer  
-- Cloudinary  
+- Cloudinary
+
+## Tech tools
+- git
+- github
+- nion
+- etc...
 
 ## Development Status
 
