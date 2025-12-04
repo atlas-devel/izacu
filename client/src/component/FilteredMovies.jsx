@@ -62,7 +62,9 @@ const FilteredMovies = () => {
                       })}
                     </div>
                     <div>
-                      <p className="text-sm text-gray-400 line-clamp-2">{description}</p>
+                      <p className="text-sm text-gray-400 line-clamp-2">
+                        {description}
+                      </p>
                     </div>
                   </>
                 )}

@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Movie" ALTER COLUMN "download" SET DEFAULT 0,
-ALTER COLUMN "views" SET DEFAULT 0;
