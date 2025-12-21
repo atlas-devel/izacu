@@ -46,7 +46,11 @@ const Sidebar = () => {
           {sidebarIcons.map(({ name, Icon, id }) => (
             <button
               key={id}
-              onClick={() => name === "browse" && navigate("/browse-movies")}
+              onClick={() =>
+                (name === "browse" && navigate("/browse-movies")) ||
+                (name === "Movies" && navigate("/movies?type=movies")) ||
+                (name === "Tv Shows" && navigate("/movies?type=series"))
+              }
               className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 hover:bg-red-700/90 active:scale-95 group ${
                 showSidebar ? "" : "justify-center"
               }`}

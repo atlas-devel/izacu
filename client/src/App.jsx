@@ -18,6 +18,7 @@ import LoginAdmin from "./Admins/login/LoginAdmin";
 import OTPverification from "./Admins/login/OTPverification";
 import { Toaster } from "sonner";
 import ProtectedRoute from "./component/Protected route/ProtectedRoute";
+import FilterMovies from "./page/FilterMovies";
 
 const App = () => {
   return (
@@ -36,6 +37,8 @@ const App = () => {
             <Route path="/watch/:slug" element={<WatchPage />} />
             <Route path="/browse-movies" element={<SearchPage />} />
             <Route path="/category" element={<CategoryPage />} />
+            <Route path="/movies" element={<FilterMovies />} />
+            <Route path="/series" element={<CategoryPage />} />
           </Route>
           {/* Admin Pages wrapped in AdminLayout */}
           <Route
