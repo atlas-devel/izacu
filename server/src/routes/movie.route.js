@@ -12,6 +12,7 @@ import {
   getMovieByGenreName,
 } from "../controllers/movie.controller.js";
 import parse from "../utils/cloudinary.js";
+import { isAuthenticatedAdmin } from "../middleware/adminAuthentication.js";
 
 const router = express.Router();
 
@@ -28,6 +29,7 @@ router.post(
     { name: "posterPotrait", maxCount: 1 },
     { name: "posterLandscape", maxCount: 1 },
   ]),
+  isAuthenticatedAdmin,
   createMovie
 );
 router.put("/:id", updateMovie);

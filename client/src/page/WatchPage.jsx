@@ -29,7 +29,7 @@ const WatchPage = () => {
           <div className="w-full">
             <div className="w-full  m-auto h-[60vh]   ">
               <iframe
-                src="https://hglink.to/e/9vca71i6sj8q"
+                src={movie.movieUrl}
                 className="w-full h-full  object-cover "
                 allowFullScreen={true}
                 frameborder="0"
