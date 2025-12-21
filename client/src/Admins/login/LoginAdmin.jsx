@@ -41,7 +41,8 @@ const LoginAdmin = () => {
   };
 
   return (
-    <section className="flex flex-col min-h-screen min-w-screen bg-black bg-cover bg-center ">
+    <section className="flex flex-col min-h-screen min-w-screen bg-black bg-cover bg-center overfollow-hidden">
+      <div className="absolute inset-0 bg-blue-300/8 translate-y-28  rounded-full scale-50  blur-3xl" />
       <div className="bg-gradient-to-b from-transparent to-black h-full  flex-1 ">
         <div className="max-md:hidden">
           <div className="inline-block  relative">
