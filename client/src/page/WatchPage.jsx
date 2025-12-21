@@ -40,31 +40,29 @@ const WatchPage = () => {
                 <div className="md:max-h-100 max-h-70  min-w-40 md:min-w-60 max-w-50">
                   <img
                     className="w-full h-full object-cover"
-                    src={avatar}
+                    src={movie.posterPotrait}
                     alt=""
                   />
                 </div>
                 <div className="text-indigo-100 space-y-3  ">
-                  <h1 className="font-semibold uppercase">avatar</h1>
+                  <h1 className="font-semibold uppercase">{movie.title}</h1>
                   <div>
                     <p className="text-md font-light text-gray-500">
-                      2022 | 1h 44min
+                      {movie.releaseYear}
                     </p>
                     <p className="capitalize text-sm font-semibold ">
                       action, science fiction
                     </p>
                   </div>
                   <p className="text-gray-500 text-sm font-light max-w-130">
-                    Legendary hitman John Wick uncovers a path to defeating the
-                    High Table, but must face powerful enemies across the globe
-                    before he can earn his freedom.
+                    {movie.description}
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="shrink-0 overflow-hidden text-indigo-100 border border-white/5  h-fit bg-gradient-to-br from-blue-950 py-3 ">
+        <div className="shrink-0 overflow-hidden text-indigo-100  h-fit bg-gradient-to-br from-blue-950 py-3 ">
           {type.toLowerCase() === "series" && (
             <div>
               <h1 className="font-semibold block text-center  my-7 text-lg uppercase   ">
