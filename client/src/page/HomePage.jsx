@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { footerData, heroMovieBanner, moviesData } from "../assets/data";
 import { FaPlay } from "react-icons/fa";
 import { IoWifi } from "react-icons/io5";
-import RenderMovies from "../component/RenderMovies";
 import Footer from "../component/Footer";
 import AllCategories from "../component/MovieCategories/AllCategories";
 
@@ -103,9 +102,6 @@ const HomePage = () => {
           <option value="Recently added">Recently added</option>
         </select>
       </div>
-      {/* {moviesData.map(({ type, movies, id }) => {
-        return <RenderMovies key={id} type={type} movies={movies} />;
-      })} */}
 
       {/* Movie categories */}
       <AllCategories />

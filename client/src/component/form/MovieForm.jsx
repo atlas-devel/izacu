@@ -6,7 +6,7 @@ export default function MovieForm({ setForm, onMovieCreated }) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    releaseYear: new Date().getFullYear(),
+    releaseDate: "",
     country: "",
     resolution: "HD",
     movieUrl: "",
@@ -108,7 +108,7 @@ export default function MovieForm({ setForm, onMovieCreated }) {
       const formDataToSend = new FormData();
       formDataToSend.append("title", formData.title.trim());
       formDataToSend.append("description", formData.description.trim());
-      formDataToSend.append("releaseYear", formData.releaseYear);
+      formDataToSend.append("releaseDate", formData.releaseDate);
       formDataToSend.append("country", formData.country.trim());
       formDataToSend.append("resolution", formData.resolution);
       formDataToSend.append("movieUrl", formData.movieUrl.trim());
@@ -211,21 +211,20 @@ export default function MovieForm({ setForm, onMovieCreated }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Release Year <span className="text-red-500">*</span>
+                    Release Date <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="number"
-                    name="releaseYear"
+                    type="date"
+                    name="releaseDate"
                     required
                     min="1900"
                     max={new Date().getFullYear() + 5}
                     className="w-full px-4 py-2 border outline-none border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500"
-                    value={formData.releaseYear}
+                    value={formData.releaseDate}
                     onChange={handleChange}
                     disabled={loading}
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Country <span className="text-red-500">*</span>

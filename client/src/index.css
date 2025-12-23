@@ -42,6 +42,9 @@ body {
   width: 6px;
   height: 12px;
 }
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
 
 input[type="range"] {
   -webkit-appearance: none;

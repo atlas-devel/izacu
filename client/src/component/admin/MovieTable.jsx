@@ -99,9 +99,10 @@ export default function MovieTable({
                         {movie.title}
                       </div>
                       <div className="text-xs text-gray-500">
-                        {movie.releaseYear} • {movie.country}
+                        {new Date(movie.releaseDate).toDateString()} •{" "}
+                        {movie.country}
                       </div>
-                    </div>
+                    </div>  
                   </div>
                 </td>
                 <td className="px-6 py-4">
