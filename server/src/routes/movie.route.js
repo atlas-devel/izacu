@@ -10,6 +10,7 @@ import {
   updateMovie,
   getMovieByTranslatorName,
   getMovieByGenreName,
+  getRecentMovies,
 } from "../controllers/movie.controller.js";
 import parse from "../utils/cloudinary.js";
 import { isAuthenticatedAdmin } from "../middleware/adminAuthentication.js";
@@ -17,6 +18,7 @@ import { isAuthenticatedAdmin } from "../middleware/adminAuthentication.js";
 const router = express.Router();
 
 router.get("/", getMovies);
+router.get("/recent-movies", getRecentMovies);
 router.get("/:slug", getMovieBySlug);
 router.get("/translator/:translatorId", getMoviesByTranslator);
 router.get("/genre/:genreId", getMoviesByGenre);
