@@ -15,7 +15,7 @@ const Context = ({ children }) => {
     try {
       const res = await api.get("/movies");
       setAllMovies(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       console.error(error);
     }

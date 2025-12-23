@@ -1,12 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { FaRegPlayCircle } from "react-icons/fa";
-import { VscVerifiedFilled } from "react-icons/vsc";
-import { MyContext } from "../../context/Context";
+import api from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 
 const Recent = ({ type }) => {
+  const [recentMovies, setRecentMovies] = useState([]);
   const navigate = useNavigate();
-  const { allMovies } = useContext(MyContext);
+
+  const fetchRecentMovies = async () => {
+    try {
+      const res = await api.get("/movies/recent-movies");
+      console.log(res.data);
+      setRecentMovies(res.data.movies);
+      console.log("recent movies", recentMovies);
+    } catch (error) {
+      if (error.response.status === 404) {
+        console.log(error.response.data.message);
+        return;
+      }
+      console.log(error.response);
+    }
+  };
+  8;
+  useEffect(() => {
+    fetchRecentMovies();
+  }, [import.meta.env.VITE_API_URL]);
+
   return (
     <div>
       <div className="flex justify-between items-center mx-8 mt-3 ">
@@ -17,35 +37,33 @@ const Recent = ({ type }) => {
           Load More
         </button>
       </div>
-      <div className="flex gap-4 my-4 w-full  px-4">
-        {allMovies.map(
-          ({ id, movieUrl, title, posterPotrait, releaseYear }) => {
-            return (
-              <div
-                key={id}
-                onClick={() =>
-                  navigate(`/watch/${title.replace(/\s+/g, "-").toLowerCase()}`)
-                }
-                className="w-full sm:max-w-[16em] hover:shadow-[2px_2px_12px_#1d357c] bg-white/4 m-[2em_auto]  h-fit sm:h-[20em] border border-white/8 hover:-translate-1 duration-400 cursor-pointer text-white rounded-md overflow-hidden"
-              >
-                <div className="relative w-full h-[70%] overflow-hidden group">
-                  <img
-                    className="w-full h-full hover:scale-105 group-hover:brightness-60 duration-400 object-cover"
-                    src={posterPotrait}
-                    alt={`${title} profile postures`}
-                  />
-                  <span className=" opacity-0 group-hover:opacity-100 absolute top-18 left-25 text-5xl text-red-700 ">
-                    <FaRegPlayCircle />
-                  </span>
-                </div>
-                <div className="px-4 pt-4 ">
-                  <h1 className="font-bold uppercase ">{title}</h1>
-                  <p className="text-sm mt-1 text-gray-500 ">{releaseYear}</p>
-                </div>
+      <div className="flex overflow-x-auto hide-scroll gap-4 my-4 w-full  px-4">
+        {recentMovies.map(({ id, title, posterPotrait, releaseYear }) => {
+          return (
+            <div
+              key={id}
+              onClick={() =>
+                navigate(`/watch/${title.replace(/\s+/g, "-").toLowerCase()}`)
+              }
+              className="w-[50%]  max-h-[600px] shrink-0 sm:max-w-[16em] hover:shadow-[2px_2px_12px_#1d357c] bg-white/4 m-[2em_auto]  h-[300px] sm:h-[20em] border border-white/8 hover:-translate-1 duration-400 cursor-pointer text-white rounded-md overflow-hidden"
+            >
+              <div className="relative w-full h-[70%] overflow-hidden group">
+                <img
+                  className="w-full h-full hover:scale-105 group-hover:brightness-60 duration-400 object-cover"
+                  src={posterPotrait}
+                  alt={`${title} profile postures`}
+                />
+                <span className=" opacity-0 group-hover:opacity-100 absolute top-18 left-25 text-5xl text-red-700 ">
+                  <FaRegPlayCircle />
+                </span>
               </div>
-            );
-          }
-        )}
+              <div className="px-4 pt-4 ">
+                <h1 className="font-bold uppercase ">{title}</h1>
+                <p className="text-sm mt-1 text-gray-500 ">{releaseYear}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
