@@ -6,6 +6,7 @@ import { movies } from "../assets/data";
 
 const WatchPage = () => {
   const [movie, setMovie] = useState({});
+  const [removePlayLayer, setRemovePlayLayer] = useState(false);
   const { slug } = useParams();
 
   const getMovie = async () => {
@@ -22,18 +23,30 @@ const WatchPage = () => {
     getMovie();
   }, [import.meta.env.VITE_API_URL, slug]);
   const type = "series";
+
+  const removeBackLayer = () => {
+    const playbackLayer = playLayer?.current;
+    playbackLayer.style.display = "none";
+    setRemovePlayLayer(true);
+  };
   return (
     <section className="bg-gradient-to-t from-blue-950 to-[#0f0f11] h-full w-full overflow-y-scroll scroll-style flex ">
       <div className=" flex flex-col md:flex-row gap-4 w-full">
         <div className="px-3 md:pl-4 flex-1">
           <div className="w-full">
-            <div className="w-full  m-auto h-[60vh]   ">
+            <div className="relative w-full  m-auto h-[60vh] border-red-500 border-3  ">
               <iframe
                 src={movie.movieUrl}
                 className="w-full h-full  object-cover "
                 allowFullScreen={true}
                 frameborder="0"
               ></iframe>
+              {removePlayLayer && (
+                <div
+                  ref={playLayer}
+                  className="absolute inset-0 bg-black opacity-50 backdrop-blur-sm"
+                />
+              )}
             </div>
             <div className="flex">
               <div className=" my-10 flex gap-10">
