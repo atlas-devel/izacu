@@ -10,6 +10,7 @@ export async function getMovies(req, res) {
         },
       },
       where: { publish_status: "published" },
+      orderBy: { releaseDate: "desc" },
     });
 
     if (!movies.length) {
@@ -176,12 +177,12 @@ export async function getMoviesByGenre(req, res) {
 }
 
 export async function createMovie(req, res) {
-  const userId=req.id
+  const userId = req.id;
 
   const {
     title,
     description,
-    releaseYear,
+    releaseDate,
     country,
     resolution,
     movieUrl,
@@ -210,7 +211,7 @@ export async function createMovie(req, res) {
       data: {
         title,
         description,
-        releaseYear: parseInt(releaseYear),
+        releaseDate: new Date(releaseDate),
         country,
         resolution,
         movieUrl,
@@ -339,22 +340,29 @@ export async function changeMoviePublishStatus(req, res) {
   }
 }
 
-// added get movie by id controller by Leon
+export const getRecentMovies = async (req, res) => {
+  try {
+    const movies = await prisma.movie.findMany({
+      where: {
+        publish_status: "published",
+      },
+      orderBy: { releaseDate: "desc" },
+      take: 15,
+    });
+    console.log("______________debug Movies__________________");
+    console.log(movies);
+    if (!movies || movies.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Movies not found " });
+    }
+    return res.status(200).json({ success: true, movies });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "server error", error });
+  }
+};
 
-// export const getMovieById = async (req, res) => {
-//   const { id } = req.params;
-//   try {
-//     const movie = await prisma.movie.findUnique({
-//       where: { id: Number(id) },
-//     });
-//     if (!movie) {
-//       return res.status(404).json({ message: "Movie not found" });
-//     }
-//     return res.status(200).json(movie);
-//   } catch (error) {
-//     console.error("Error: " + error);
-//     return res
-//       .status(500)
-//       .json({ success: false, message: "Error fetching movie", error });
-//   }
-// };
+export const getPopularMovies = async (req, res) => {};
+  

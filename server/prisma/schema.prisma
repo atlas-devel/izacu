@@ -25,7 +25,7 @@ model Movie {
   id              Int           @id @default(autoincrement())
   title           String
   description     String
-  releaseYear     Int
+  releaseDate     DateTime      @db.Date
   country         String
   resolution      String        @default("HD")
   movieUrl        String
