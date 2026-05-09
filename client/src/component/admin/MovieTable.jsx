@@ -92,6 +92,8 @@ export default function MovieTable({
                         src={movie.posterPotrait}
                         alt={movie.title}
                         className="w-12 h-16 object-cover rounded"
+                        loading="lazy"
+                        onError={(e) => (e.target.src = "https://via.placeholder.com/120x160?text=No+Image")}
                       />
                     )}
                     <div>

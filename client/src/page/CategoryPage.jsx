@@ -67,6 +67,8 @@ const CategoryPage = () => {
                   className="w-full h-full hover:scale-105 group-hover:brightness-60 duration-400 object-cover"
                   src={movieUrl}
                   alt={`${title} profile postures`}
+                  loading="lazy"
+                  onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                 />
                 <span className=" opacity-0 group-hover:opacity-100 absolute top-18 left-25 text-5xl text-red-700 ">
                   <FaRegPlayCircle />

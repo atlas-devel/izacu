@@ -1,6 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { VscVerifiedFilled } from "react-icons/vsc";
+
+const handleImgError = (e) => {
+  e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
+};
 
 const RenderMovies = ({ type, movies }) => {
   return (
@@ -25,6 +29,8 @@ const RenderMovies = ({ type, movies }) => {
                   className="w-full h-full hover:scale-105 group-hover:brightness-60 duration-400 object-cover"
                   src={image}
                   alt={`${name} profile postures`}
+                  loading="lazy"
+                  onError={handleImgError}
                 />
                 <span className=" opacity-0 group-hover:opacity-100 absolute top-18 left-25 text-5xl text-red-700 ">
                   <FaRegPlayCircle />
@@ -39,7 +45,9 @@ const RenderMovies = ({ type, movies }) => {
                   <img
                     className="h-full w-full"
                     src={user.imageProfile}
-                    alt=""
+                    alt={user.username || "user"}
+                    loading="lazy"
+                    onError={handleImgError}
                   />
                   {user.imageProfile}
                 </span>

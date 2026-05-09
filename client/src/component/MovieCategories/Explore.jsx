@@ -1,10 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { MyContext } from "../../context/Context";
 
 const Explore = ({ type }) => {
   const { allMovies } = useContext(MyContext);
+
+  const handleImgError = (e) => {
+    e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
+  };
   return (
     <div>
          <div className="flex justify-between items-center mx-8 mt-3 ">
@@ -31,6 +35,8 @@ const Explore = ({ type }) => {
                        className="w-full h-full hover:scale-105 group-hover:brightness-60 duration-400 object-cover"
                        src={posterPotrait}
                        alt={`${title} profile postures`}
+                       loading="lazy"
+                       onError={handleImgError}
                      />
                      <span className=" opacity-0 group-hover:opacity-100 absolute top-18 left-25 text-5xl text-red-700 ">
                        <FaRegPlayCircle />

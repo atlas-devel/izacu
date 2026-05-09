@@ -53,6 +53,8 @@ const HomePage = () => {
                     className="object-cover w-full h-full"
                     src={image}
                     alt=""
+                    loading="lazy"
+                    onError={(e) => (e.target.src = "https://via.placeholder.com/1200x675?text=No+Image")}
                   />
                   <div className="absolute flex justify-between flex-col top-0 left-0 bg-[#010103]/30 z-20 h-full w-full">
                     <div className="text-white mx-2 inline-flex items-center max-w-fit gap-1 bg-red-800 px-2 py-1 rounded-2xl hover:bg-red-700 m-3">

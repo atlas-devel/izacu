@@ -42,6 +42,8 @@ const WatchPage = () => {
                     className="w-full h-full object-cover"
                     src={movie.posterPotrait}
                     alt=""
+                    loading="lazy"
+                    onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                   />
                 </div>
                 <div className="text-indigo-100 space-y-3  ">
@@ -80,6 +82,8 @@ const WatchPage = () => {
                           className="sm:w-full h-full hover:scale-105 hover:brightness-60 duration-400 object-cover"
                           src={image}
                           alt={`${name} profile postures`}
+                          loading="lazy"
+                          onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                         />
                       </div>
                       <div className="px-4 py-2 text-sm">
@@ -112,6 +116,8 @@ const WatchPage = () => {
                       className="sm:w-full h-full hover:scale-105 hover:brightness-60 duration-400 object-cover"
                       src={image}
                       alt={`${name} profile postures`}
+                      loading="lazy"
+                      onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                     />
                   </div>
                   <div className="px-4 py-2 text-sm">
