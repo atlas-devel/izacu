@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import RenderAll from "./component/RenderAll";
 import Context from "./context/Context";
 import { Routes, Route } from "react-router-dom";
@@ -6,13 +6,13 @@ import HomePage from "./page/HomePage";
 import WatchPage from "./page/WatchPage";
 import SearchPage from "./page/SearchPage";
 import LoginAdmins from "./Admins/LoginAdmins";
-import Dashboard from "./Admins/Dashboard";
-import AdminLayout from "./Admins/AdminLayout";
-import Genre from "./Admins/Genre";
-import Translators from "./Admins/Translators";
-import Movies from "./Admins/Movies";
-import Comments from "./Admins/Comments";
-import Profile from "./Admins/Profile";
+const Dashboard = lazy(() => import("./Admins/Dashboard"));
+const AdminLayout = lazy(() => import("./Admins/AdminLayout"));
+const Genre = lazy(() => import("./Admins/Genre"));
+const Translators = lazy(() => import("./Admins/Translators"));
+const Movies = lazy(() => import("./Admins/Movies"));
+const Comments = lazy(() => import("./Admins/Comments"));
+const Profile = lazy(() => import("./Admins/Profile"));
 import CategoryPage from "./page/CategoryPage";
 import LoginAdmin from "./Admins/login/LoginAdmin";
 import OTPverification from "./Admins/login/OTPverification";
@@ -24,7 +24,8 @@ const App = () => {
   return (
     <div>
       <Context>
-        <Routes>
+        <Suspense fallback={<div className="p-8 text-center text-white">Loading...</div>}>
+          <Routes>
           {/* admin login */}
           <Route path="/admin/login" element={<LoginAdmin />} />
           <Route
@@ -55,7 +56,8 @@ const App = () => {
             <Route path="/admin/comments" element={<Comments />} />
             <Route path="/admin/profile" element={<Profile />} />
           </Route>
-        </Routes>
+          </Routes>
+        </Suspense>
       </Context>
       <Toaster />
     </div>
