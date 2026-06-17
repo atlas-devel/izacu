@@ -22,3 +22,5 @@ server/.env
 .DS_Store
 Thumbs.db
 EOL
+
+client/src/assets/movie_images/

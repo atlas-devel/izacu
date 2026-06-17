@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import avatar from "../assets/images/avatar.webp";
+import { useParams } from "react-router-dom";
+import api from "../lib/axios";
 import { movies } from "../assets/data";
-import { VscVerifiedFilled } from "react-icons/vsc";
 
 const WatchPage = () => {
-  const type = "Series";
+  const [movie, setMovie] = useState({});
+  const { slug } = useParams();
+
+  const getMovie = async () => {
+    try {
+      const res = await api.get(`/movies/${slug}`);
+      setMovie(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log("movie not found");
+    }
+  };
+
+  useEffect(() => {
+    getMovie();
+  }, [import.meta.env.VITE_API_URL, slug]);
+  const type = "series";
   return (
     <section className="bg-gradient-to-t from-blue-950 to-[#0f0f11] h-full w-full overflow-y-scroll scroll-style flex ">
       <div className=" flex flex-col md:flex-row gap-4 w-full">
@@ -12,7 +29,7 @@ const WatchPage = () => {
           <div className="w-full">
             <div className="w-full  m-auto h-[60vh]   ">
               <iframe
-                src="https://hglink.to/e/9vca71i6sj8q"
+                src={movie.movieUrl}
                 className="w-full h-full  object-cover "
                 allowFullScreen={true}
                 frameborder="0"
@@ -23,31 +40,31 @@ const WatchPage = () => {
                 <div className="md:max-h-100 max-h-70  min-w-40 md:min-w-60 max-w-50">
                   <img
                     className="w-full h-full object-cover"
-                    src={avatar}
+                    src={movie.posterPotrait}
                     alt=""
+                    loading="lazy"
+                    onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                   />
                 </div>
                 <div className="text-indigo-100 space-y-3  ">
-                  <h1 className="font-semibold uppercase">avatar</h1>
+                  <h1 className="font-semibold uppercase">{movie.title}</h1>
                   <div>
                     <p className="text-md font-light text-gray-500">
-                      2022 | 1h 44min
+                      {movie.releaseYear}
                     </p>
                     <p className="capitalize text-sm font-semibold ">
                       action, science fiction
                     </p>
                   </div>
                   <p className="text-gray-500 text-sm font-light max-w-130">
-                    Legendary hitman John Wick uncovers a path to defeating the
-                    High Table, but must face powerful enemies across the globe
-                    before he can earn his freedom.
+                    {movie.description}
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="shrink-0 overflow-hidden text-indigo-100 border border-white/5  h-fit bg-gradient-to-br from-blue-950 py-3 ">
+        <div className="shrink-0 overflow-hidden text-indigo-100  h-fit bg-gradient-to-br from-blue-950 py-3 ">
           {type.toLowerCase() === "series" && (
             <div>
               <h1 className="font-semibold block text-center  my-7 text-lg uppercase   ">
@@ -65,6 +82,8 @@ const WatchPage = () => {
                           className="sm:w-full h-full hover:scale-105 hover:brightness-60 duration-400 object-cover"
                           src={image}
                           alt={`${name} profile postures`}
+                          loading="lazy"
+                          onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                         />
                       </div>
                       <div className="px-4 py-2 text-sm">
@@ -97,6 +116,8 @@ const WatchPage = () => {
                       className="sm:w-full h-full hover:scale-105 hover:brightness-60 duration-400 object-cover"
                       src={image}
                       alt={`${name} profile postures`}
+                      loading="lazy"
+                      onError={(e) => (e.target.src = "https://via.placeholder.com/300x450?text=No+Image")}
                     />
                   </div>
                   <div className="px-4 py-2 text-sm">

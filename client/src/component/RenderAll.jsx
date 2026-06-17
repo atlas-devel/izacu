@@ -1,15 +1,13 @@
 import React, { useContext } from "react";
 import Sidebar from "./Sidebar";
 import { Route, Routes, Outlet } from "react-router-dom";
-import HomePage from "../page/HomePage";
-import LoginPage from "../page/LoginPage";
-import WatchPage from "../page/WatchPage";
+
 import Navigations from "./Navigations";
-import SearchPage from "../page/SearchPage";
 import { MyContext } from "../context/Context";
 
 const RenderAll = () => {
   const { pathname } = useContext(MyContext);
+
   return (
     <section className="flex w-screen">
       <Sidebar />

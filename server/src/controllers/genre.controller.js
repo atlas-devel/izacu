@@ -76,3 +76,36 @@ export async function deleteGenre(req, res) {
     return res.status(500).json({ error: "Failed to delete genre" });
   }
 }
+
+export async function addMovieGenre(req, res) {
+  const { movie_id, genre_id } = req.body;
+  try {
+    const existing = await prisma.movieGenres.findUnique({
+      where: {
+        movie_id_genre_id: {
+          movie_id: parseInt(movie_id),
+          genre_id: parseInt(genre_id),
+        },
+      },
+    });
+
+    if (existing) {
+      return res
+        .status(400)
+        .json({ error: "Genre already added to this movie" });
+    }
+
+    const movieGenre = await prisma.movieGenres.create({
+      data: {
+        movie_id: parseInt(movie_id),
+        genre_id: parseInt(genre_id),
+      },
+    });
+    return res
+      .status(201)
+      .json({ message: "Genre added to movie", movieGenre });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Failed to add genre to movie" });
+  }
+}

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 body {
-  background-color: #0f0f11;
+  background-color: #141f44;
 }
 
 * {
@@ -41,6 +41,9 @@ body {
   appearance: none;
   width: 6px;
   height: 12px;
+}
+.hide-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 input[type="range"] {

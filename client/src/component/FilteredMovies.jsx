@@ -6,6 +6,10 @@ import { MyContext } from "../context/Context";
 
 const FilteredMovies = () => {
   const { active, setActive } = useContext(MyContext);
+  const handleImgError = (e) => {
+    e.target.src = "https://via.placeholder.com/300x450?text=No+Image";
+  };
+
   return (
     <div>
       <div
@@ -38,6 +42,8 @@ const FilteredMovies = () => {
                   } h-full hover:scale-105 group-hover:brightness-60 duration-400 object-cover`}
                   src={image}
                   alt={`${name} profile postures`}
+                  loading="lazy"
+                  onError={handleImgError}
                 />
               </div>
               <div className="flex flex-col px-4 space-y-2">
@@ -62,7 +68,9 @@ const FilteredMovies = () => {
                       })}
                     </div>
                     <div>
-                      <p className="text-sm text-gray-400 line-clamp-2">{description}</p>
+                      <p className="text-sm text-gray-400 line-clamp-2">
+                        {description}
+                      </p>
                     </div>
                   </>
                 )}
